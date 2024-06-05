@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Image</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        #uploadedImage {
+            display: none;
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Your Image</h2>
+        <form id="imageForm">
+            <input type="file" id="imageInput" accept="image/*" required>
+            <br><br>
+            <button type="submit">Upload</button>
+        </form>
+        <div id="uploadedImage"></div>
+    </div>
+
+    <script>
+        document.getElementById('imageForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let fileInput = document.getElementById('imageInput');
+            let uploadedImage = document.getElementById('uploadedImage');
+            let file = fileInput.files[0];
+            
+            if (file.size > 3 * 1024 * 1024) {
+                alert('Please upload an image file less than 3MB.');
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function(event) {
+                uploadedImage.innerHTML = `<img src="${event.target.result}" alt="Uploaded Image" width="200" height="200">`;
+                uploadedImage.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
